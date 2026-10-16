@@ -12,7 +12,7 @@ export default function TimerButton({
     return (
         <TouchableOpacity
             style={[styles.button, { borderColor: color }]}
-            onPress={() => {toggleChange()}}
+            onPress={toggleChange}
         >
             <Text
                 style={[

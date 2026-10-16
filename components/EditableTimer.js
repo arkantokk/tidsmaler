@@ -9,6 +9,10 @@ export default function EditableTimer({
     project,
     elapsed,
     isRunning,
+    startedAt,
+    now,
+    onToggle,
+    onDelete,
     editFormOpen,
 }) {
     if (editFormOpen) {
@@ -21,6 +25,10 @@ export default function EditableTimer({
             project={project}
             elapsed={elapsed}
             isRunning={isRunning}
+            startedAt={startedAt}
+            now={now}
+            onToggle={onToggle}
+            onDelete={onDelete}
         />
     );
 }

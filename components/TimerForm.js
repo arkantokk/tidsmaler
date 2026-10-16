@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { StyleSheet, View, Text, TextInput } from 'react-native';
 import TimerButton from './TimerButton';
 
-export default function TimerForm({ id, title, project }) {
+export default function TimerForm({ id, title, project, onSubmit, onCancel }) {
+    const [timerTitle, setTimerTitle] = useState(title || '');
+    const [timerProject, setTimerProject] = useState(project || '');
     const submitText = id ? 'Oppdater' : 'Opprett';
+
+    const handleSubmit = () => {
+        const cleanTitle = timerTitle.trim();
+        const cleanProject = timerProject.trim();
+
+        if (!cleanTitle || !cleanProject) {
+            return;
+        }
+
+        onSubmit({ title: cleanTitle, project: cleanProject });
+        onCancel();
+    };
+
     return (
         <View style={styles.formContainer}>
             <View style={styles.attributeContainer}>
@@ -13,7 +28,8 @@ export default function TimerForm({ id, title, project }) {
                     <TextInput
                         style={styles.textInput}
                         underlineColorAndroid="transparent"
-                        defaultValue={title}
+                        value={timerTitle}
+                        onChangeText={setTimerTitle}
                     />
                 </View>
             </View>
@@ -23,13 +39,14 @@ export default function TimerForm({ id, title, project }) {
                     <TextInput
                         style={styles.textInput}
                         underlineColorAndroid="transparent"
-                        defaultValue={project}
+                        value={timerProject}
+                        onChangeText={setTimerProject}
                     />
                 </View>
             </View>
             <View style={styles.buttonGroup}>
-                <TimerButton small color="#21BA45" title={submitText} />
-                <TimerButton small color="#DB2828" title="Avbryt" />
+                <TimerButton small color="#21BA45" title={submitText} toggleChange={handleSubmit} />
+                <TimerButton small color="#DB2828" title="Avbryt" toggleChange={onCancel} />
             </View>
         </View>
     );

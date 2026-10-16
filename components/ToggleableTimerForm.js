@@ -4,14 +4,17 @@ import { StyleSheet, View } from 'react-native';
 import TimerButton from './TimerButton';
 import TimerForm from './TimerForm';
 
-const ToggleableTimerForm = () => {
+const ToggleableTimerForm = ({ onCreateTimer }) => {
     
     const [isOpen, setIsOpen] = useState(false);
 
     return (
         <View style={[styles.container, !isOpen && styles.buttonPadding]}>
             {isOpen ? (
-                <TimerForm />
+                <TimerForm
+                    onSubmit={onCreateTimer}
+                    onCancel={() => setIsOpen(false)}
+                />
             ) : (
                 <TimerButton 
                     title="+" 

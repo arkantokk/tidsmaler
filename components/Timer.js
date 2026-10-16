@@ -4,8 +4,9 @@ import { StyleSheet, View, Text } from 'react-native';
 import { millisecondsToHuman } from '../utils/TimerUtils';
 import TimerButton from './TimerButton';
 
-export default function Timer({ title, project, elapsed }) {
-    const elapsedString = millisecondsToHuman(elapsed);
+export default function Timer({ title, project, elapsed, isRunning, startedAt, now, onToggle, onDelete }) {
+    const currentElapsed = elapsed + (isRunning && startedAt ? now - startedAt : 0);
+    const elapsedString = millisecondsToHuman(currentElapsed);
 
     return (
         <View style={styles.timerContainer}>
@@ -13,10 +14,13 @@ export default function Timer({ title, project, elapsed }) {
             <Text>{project}</Text>
             <Text style={styles.elapsedTime}>{elapsedString}</Text>
             <View style={styles.buttonGroup}>
-                <TimerButton color="blue" small title="Endre" />
-                <TimerButton color="blue" small title="Fjern" />
+                <TimerButton color="blue" small title="Fjern" toggleChange={onDelete} />
             </View>
-            <TimerButton color="#21BA45" title="Start" />
+            <TimerButton
+                color={isRunning ? '#DB2828' : '#21BA45'}
+                title={isRunning ? 'Pause' : 'Start'}
+                toggleChange={onToggle}
+            />
         </View>
     );
 }
